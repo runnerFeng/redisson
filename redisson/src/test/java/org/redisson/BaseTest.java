@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
+import org.redisson.codec.MsgPackJacksonCodec;
 import org.redisson.config.Config;
 
 public abstract class BaseTest {
@@ -16,7 +18,7 @@ public abstract class BaseTest {
     @BeforeClass
     public static void beforeClass() throws IOException, InterruptedException {
         if (!RedissonRuntimeEnvironment.isTravis) {
-            RedisRunner.startDefaultRedisServerInstance();
+//            RedisRunner.startDefaultRedisServerInstance();
             defaultRedisson = createInstance();
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
@@ -60,7 +62,7 @@ public abstract class BaseTest {
 //        config.useSentinelServers().setMasterName("mymaster").addSentinelAddress("127.0.0.1:26379", "127.0.0.1:26389");
 //        config.useClusterServers().addNodeAddress("127.0.0.1:7004", "127.0.0.1:7001", "127.0.0.1:7000");
         config.useSingleServer()
-                .setAddress(RedisRunner.getDefaultRedisServerBindAddressAndPort());
+                .setAddress("redis://127.0.0.1:6379");
 //        .setPassword("mypass1");
 //        config.useMasterSlaveConnection()
 //        .setMasterAddress("127.0.0.1:6379")
